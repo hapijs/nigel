@@ -1,0 +1,33 @@
+{
+  "name": "nigel",
+  "description": "BoyerMooreHorspool algorithms",
+  "version": "1.0.0",
+  "repository": "git://github.com/hapijs/nigel",
+  "main": "index",
+  "keywords": [
+    "boyer-moore-horspool",
+    "algorithms",
+    "lookup",
+    "search",
+    "stream"
+  ],
+  "engines": {
+    "node": ">=0.10.32"
+  },
+  "dependencies": {
+    "boom": "2.x.x",
+    "hoek": "2.x.x"
+  },
+  "devDependencies": {
+    "lab": "4.x.x"
+  },
+  "scripts": {
+    "test": "make test-cov"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "http://github.com/hapijs/nigel/raw/master/LICENSE"
+    }
+  ]
+}

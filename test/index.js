@@ -22,12 +22,32 @@ describe('compile()', function () {
 
     it('processes needle', function (done) {
 
-        var needle = 'abcdefghijklmnopqrstuvwxyz';
+        var needle = new Buffer('abcdefghijklmnopqrstuvwxyz');
         expect(Nigel.compile(needle)).to.deep.equal({
-            value: new Buffer(needle),
+            value: needle,
             length: 26,
             badCharShift: [26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26]
         });
+
+        done();
+    });
+
+    it('throws on empty needle', function (done) {
+
+        expect(function () {
+
+            Nigel.compile(new Buffer(''));
+        }).to.throw('Missing needle');
+
+        done();
+    });
+
+    it('throws on empty needle', function (done) {
+
+        expect(function () {
+
+            Nigel.compile();
+        }).to.throw('Missing needle');
 
         done();
     });
@@ -37,8 +57,8 @@ describe('horspool()', function () {
 
     it('finds needle', function (done) {
 
-        var haystack = 'abcdefghijklmnopqrstuvwxyz';
-        var needle = 'mnopq';
+        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        var needle = new Buffer('mnopq');
 
         expect(Nigel.horspool(haystack, needle)).to.equal(12);
         done();
@@ -46,8 +66,17 @@ describe('horspool()', function () {
 
     it('does not find needle', function (done) {
 
-        var haystack = 'abcdefghijklmnopqrstuvwxyz';
-        var needle = 'mno2pq';
+        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        var needle = new Buffer('mnxpq');
+
+        expect(Nigel.horspool(haystack, needle)).to.equal(-1);
+        done();
+    });
+
+    it('does not find needle (tail match)', function (done) {
+
+        var haystack = new Buffer('q2q2q2q2q');
+        var needle = new Buffer('22q');
 
         expect(Nigel.horspool(haystack, needle)).to.equal(-1);
         done();
@@ -55,8 +84,8 @@ describe('horspool()', function () {
 
     it('finds needle from position', function (done) {
 
-        var haystack = 'abcdefghijklmnopqrstuvwxyz';
-        var needle = 'mnopq';
+        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        var needle = new Buffer('mnopq');
 
         expect(Nigel.horspool(haystack, needle, 11)).to.equal(12);
         done();
@@ -64,53 +93,26 @@ describe('horspool()', function () {
 
     it('does not find needle from position', function (done) {
 
-        var haystack = 'abcdefghijklmnopqrstuvwxyz';
-        var needle = 'mnopq';
+        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        var needle = new Buffer('mnopq');
 
         expect(Nigel.horspool(haystack, needle, 13)).to.equal(-1);
         done();
     });
 
-    it('finds buffer needle in buffer haystack', function (done) {
-
-        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        var needle = new Buffer('mnopq');
-
-        expect(Nigel.horspool(haystack, needle)).to.equal(12);
-        done();
-    });
-
-    it('finds string needle in buffer haystack', function (done) {
-
-        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        var needle = 'mnopq';
-
-        expect(Nigel.horspool(haystack, needle)).to.equal(12);
-        done();
-    });
-
-    it('finds buffer needle in string haystack', function (done) {
-
-        var haystack = 'abcdefghijklmnopqrstuvwxyz';
-        var needle = new Buffer('mnopq');
-
-        expect(Nigel.horspool(haystack, needle)).to.equal(12);
-        done();
-    });
-
     it('finds needle in vise haystack', function (done) {
 
-        var haystack = new Vise(['abcdefghijklmn', 'opqrstuvwxyz']);
-        expect(Nigel.horspool(haystack, 'mnopq')).to.equal(12);
+        var haystack = new Vise([new Buffer('abcdefghijklmn'), new Buffer('opqrstuvwxyz')]);
+        expect(Nigel.horspool(haystack, new Buffer('mnopq'))).to.equal(12);
         done();
     });
 
     it('finds needle in pushed vise haystack', function (done) {
 
         var haystack = new Vise();
-        haystack.push('abcdefghijklmn');
-        haystack.push('opqrstuvwxyz');
-        expect(Nigel.horspool(haystack, 'mnopq')).to.equal(12);
+        haystack.push(new Buffer('abcdefghijklmn'));
+        haystack.push(new Buffer('opqrstuvwxyz'));
+        expect(Nigel.horspool(haystack, new Buffer('mnopq'))).to.equal(12);
         done();
     });
 });
@@ -119,8 +121,8 @@ describe('all()', function () {
 
     it('finds needle', function (done) {
 
-        var haystack = 'abcdefghijklmnopqrstuvwxyz';
-        var needle = 'mnopq';
+        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        var needle = new Buffer('mnopq');
 
         expect(Nigel.all(haystack, needle)).to.deep.equal([12]);
         done();
@@ -128,8 +130,8 @@ describe('all()', function () {
 
     it('does not find needle', function (done) {
 
-        var haystack = 'abcdefghijklmnopqrstuvwxyz';
-        var needle = 'mno2pq';
+        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        var needle = new Buffer('mno2pq');
 
         expect(Nigel.all(haystack, needle)).to.deep.equal([]);
         done();
@@ -137,8 +139,8 @@ describe('all()', function () {
 
     it('finds multiple needles', function (done) {
 
-        var haystack = 'abc123def123ghi123jkl123mno123pqr123stu123vwx123yz';
-        var needle = '123';
+        var haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
+        var needle = new Buffer('123');
 
         expect(Nigel.all(haystack, needle)).to.deep.equal([3, 9, 15, 21, 27, 33, 39, 45]);
         done();
@@ -146,8 +148,8 @@ describe('all()', function () {
 
     it('finds multiple needles from position', function (done) {
 
-        var haystack = 'abc123def123ghi123jkl123mno123pqr123stu123vwx123yz';
-        var needle = '123';
+        var haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
+        var needle = new Buffer('123');
 
         expect(Nigel.all(haystack, needle, 11)).to.deep.equal([15, 21, 27, 33, 39, 45]);
         done();
@@ -160,7 +162,7 @@ describe('Stream', function () {
 
         var result = [];
 
-        var stream = new Nigel.Stream('123');
+        var stream = new Nigel.Stream(new Buffer('123'));
         stream.on('finish', function () {
 
             expect(result).to.deep.equal(['abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
@@ -190,7 +192,7 @@ describe('Stream', function () {
 
         var result = [];
 
-        var stream = new Nigel.Stream('123');
+        var stream = new Nigel.Stream(new Buffer('123'));
         stream.on('finish', function () {
 
             expect(result).to.deep.equal(['abc', null, 'de', 'fghij', 'klmnop', 'q', null, 'r', 'stuv', 'wxy', 'zabc']);

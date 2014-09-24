@@ -167,7 +167,7 @@ describe('Stream', function () {
         var stream = new Nigel.Stream(new Buffer('123'));
         stream.on('finish', function () {
 
-            expect(result).to.deep.equal(['abc', 1, 'de', 'fg', 1, 'h', 'ij1', 1, 'klm', 1, 'nop']);
+            expect(result).to.deep.equal(['abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
             done();
         });
 
@@ -219,6 +219,68 @@ describe('Stream', function () {
         stream.write('stuv');
         stream.write('wxy');
         stream.write('zabc');
+        stream.end();
+    });
+
+    it('parses a stream haystack (partial needle first)', function (done) {
+
+        var result = [];
+
+        var stream = new Nigel.Stream(new Buffer('123'));
+        stream.on('finish', function () {
+
+            expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
+            done();
+        });
+
+        stream.on('needle', function () {
+
+            result.push(1);
+        });
+
+        stream.on('haystack', function (chunk) {
+
+            result.push(chunk.toString());
+        });
+
+        stream.write('12');
+        stream.write('3abc123de');
+        stream.write('fg12');
+        stream.write('3hij11');
+        stream.write('23klm');
+        stream.write('123');
+        stream.write('nop');
+        stream.end();
+    });
+
+    it('parses a stream haystack (partial needle last)', function (done) {
+
+        var result = [];
+
+        var stream = new Nigel.Stream(new Buffer('123'));
+        stream.on('finish', function () {
+
+            expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop', '1']);
+            done();
+        });
+
+        stream.on('needle', function () {
+
+            result.push(1);
+        });
+
+        stream.on('haystack', function (chunk) {
+
+            result.push(chunk.toString());
+        });
+
+        stream.write('12');
+        stream.write('3abc123de');
+        stream.write('fg12');
+        stream.write('3hij11');
+        stream.write('23klm');
+        stream.write('123');
+        stream.write('nop1');
         stream.end();
     });
 });

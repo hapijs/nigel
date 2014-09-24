@@ -185,4 +185,36 @@ describe('Stream', function () {
         stream.write('nop');
         stream.end();
     });
+
+    it('flushes data buffers when more recent one is bigger than needle', function (done) {
+
+        var result = [];
+
+        var stream = new Nigel.Stream('123');
+        stream.on('finish', function () {
+
+            expect(result).to.deep.equal(['abc', null, 'de', 'fghij', 'klmnop', 'q', null, 'r', 'stuv', 'wxy', 'zabc']);
+            done();
+        });
+
+        stream.on('needle', function () {
+
+            result.push(null);
+        });
+
+        stream.on('haystack', function (chunk, g) {
+
+            expect(stream._haystack.length).to.be.lessThan(7);
+            result.push(chunk.toString());
+        });
+
+        stream.write('abc123de');
+        stream.write('fghij');
+        stream.write('klmnop');
+        stream.write('q123r');
+        stream.write('stuv');
+        stream.write('wxy');
+        stream.write('zabc');
+        stream.end();
+    });
 });

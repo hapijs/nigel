@@ -283,4 +283,107 @@ describe('Stream', function () {
         stream.write('nop1');
         stream.end();
     });
+
+    describe('needle()', function () {
+
+        it('changes needle mid stream', function (done) {
+
+            var result = [];
+
+            var stream = new Nigel.Stream(new Buffer('123'));
+            stream.on('finish', function () {
+
+                expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
+                done();
+            });
+
+            stream.on('needle', function () {
+
+                result.push(1);
+            });
+
+            stream.on('haystack', function (chunk) {
+
+                result.push(chunk.toString());
+            });
+
+            stream.write('12');
+            stream.write('3abc123de');
+            stream.write('fg12');
+            stream.needle(new Buffer('45'));
+            stream.write('3hi45j11');
+            stream.write('23klm');
+            stream.write('123');
+            stream.write('no45p1');
+            stream.end();
+        });
+
+        it('changes needle mid stream (on haystack)', function (done) {
+
+            var result = [];
+
+            var stream = new Nigel.Stream(new Buffer('123'));
+            stream.on('finish', function () {
+
+                expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
+                done();
+            });
+
+            stream.on('needle', function () {
+
+                result.push(1);
+            });
+
+            stream.on('haystack', function (chunk) {
+
+                result.push(chunk.toString());
+                if (result.length === 5) {                  // After getting 'fg'
+                    stream.needle(new Buffer('45'));
+                }
+            });
+
+            stream.write('12');
+            stream.write('3abc123de');
+            stream.write('fg12');
+            stream.write('3hi45j11');
+            stream.write('23klm');
+            stream.write('123');
+            stream.write('no45p1');
+            stream.end();
+        });
+
+        it('changes needle mid stream (on needle)', function (done) {
+
+            var result = [];
+
+            var stream = new Nigel.Stream(new Buffer('12'));
+            stream.on('finish', function () {
+
+                expect(result).to.deep.equal(['a', 1, '3abc', 1, 'de', 'fg', 1, 'hi45j1', 1, 'klm', 1, 'no45p', '1']);
+                done();
+            });
+
+            stream.on('needle', function () {
+
+                result.push(1);
+                if (result.length === 2) {                  // After first needle
+                    stream.needle(new Buffer('123'));
+                }
+            });
+
+            stream.on('haystack', function (chunk) {
+
+                result.push(chunk.toString());
+            });
+
+            stream.write('a12');
+            stream.write('3abc123de');
+            stream.write('fg12');
+            stream.write('3hi45j11');
+            stream.write('23klm');
+            stream.write('123');
+            stream.write('no45p1');
+            stream.end();
+        });
+    });
 });

@@ -165,7 +165,7 @@ describe('Stream', function () {
         var result = [];
 
         var stream = new Nigel.Stream(new Buffer('123'));
-        stream.on('finish', function () {
+        stream.on('close', function () {
 
             expect(result).to.deep.equal(['abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
             done();
@@ -195,7 +195,7 @@ describe('Stream', function () {
         var result = [];
 
         var stream = new Nigel.Stream(new Buffer('123'));
-        stream.on('finish', function () {
+        stream.on('close', function () {
 
             expect(result).to.deep.equal(['abc', null, 'de', 'fghij', 'klmnop', 'q', null, 'r', 'stuv', 'wxy', 'zabc']);
             done();
@@ -227,7 +227,7 @@ describe('Stream', function () {
         var result = [];
 
         var stream = new Nigel.Stream(new Buffer('123'));
-        stream.on('finish', function () {
+        stream.on('close', function () {
 
             expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
             done();
@@ -258,7 +258,7 @@ describe('Stream', function () {
         var result = [];
 
         var stream = new Nigel.Stream(new Buffer('123'));
-        stream.on('finish', function () {
+        stream.on('close', function () {
 
             expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop', '1']);
             done();
@@ -291,7 +291,7 @@ describe('Stream', function () {
             var result = [];
 
             var stream = new Nigel.Stream(new Buffer('123'));
-            stream.on('finish', function () {
+            stream.on('close', function () {
 
                 expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
                 done();
@@ -323,7 +323,7 @@ describe('Stream', function () {
             var result = [];
 
             var stream = new Nigel.Stream(new Buffer('123'));
-            stream.on('finish', function () {
+            stream.on('close', function () {
 
                 expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
                 done();
@@ -357,7 +357,7 @@ describe('Stream', function () {
             var result = [];
 
             var stream = new Nigel.Stream(new Buffer('12'));
-            stream.on('finish', function () {
+            stream.on('close', function () {
 
                 expect(result).to.deep.equal(['a', 1, '3abc', 1, 'de', 'fg', 1, 'hi45j1', 1, 'klm', 1, 'no45p', '1']);
                 done();
@@ -392,7 +392,7 @@ describe('Stream', function () {
             var result = [];
 
             var stream = new Nigel.Stream(new Buffer('\r\n'));
-            stream.on('finish', function () {
+            stream.on('close', function () {
 
                 expect(result).to.deep.equal(['abc', 1, 'defg', 1, 1, 'hijk\r', 1, 'lmnop\r', 1]);
                 done();

@@ -286,38 +286,6 @@ describe('Stream', function () {
 
     describe('needle()', function () {
 
-        it('changes needle mid stream', function (done) {
-
-            var result = [];
-
-            var stream = new Nigel.Stream(new Buffer('123'));
-            stream.on('finish', function () {
-
-                expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
-                done();
-            });
-
-            stream.on('needle', function () {
-
-                result.push(1);
-            });
-
-            stream.on('haystack', function (chunk) {
-
-                result.push(chunk.toString());
-            });
-
-            stream.write('12');
-            stream.write('3abc123de');
-            stream.write('fg12');
-            stream.needle(new Buffer('45'));
-            stream.write('3hi45j11');
-            stream.write('23klm');
-            stream.write('123');
-            stream.write('no45p1');
-            stream.end();
-        });
-
         it('changes needle mid stream (on haystack)', function (done) {
 
             var result = [];

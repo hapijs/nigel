@@ -385,5 +385,31 @@ describe('Stream', function () {
             stream.write('no45p1');
             stream.end();
         });
+
+        it('retains partial needle before needle', function (done) {
+
+
+            var result = [];
+
+            var stream = new Nigel.Stream(new Buffer('\r\n'));
+            stream.on('finish', function () {
+
+                expect(result).to.deep.equal(['abc', 1, 'defg', 1, 1, 'hijk\r', 1, 'lmnop\r', 1]);
+                done();
+            });
+
+            stream.on('needle', function () {
+
+                result.push(1);
+            });
+
+            stream.on('haystack', function (chunk) {
+
+                result.push(chunk.toString());
+            });
+
+            stream.write('abc\r\ndefg\r\n\r\nhijk\r\r\nlmnop\r\r\n');
+            stream.end();
+        });
     });
 });

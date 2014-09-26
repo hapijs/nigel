@@ -325,7 +325,7 @@ describe('Stream', function () {
             var stream = new Nigel.Stream(new Buffer('123'));
             stream.on('close', function () {
 
-                expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
+                expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', /**/ '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
                 done();
             });
 
@@ -359,7 +359,7 @@ describe('Stream', function () {
             var stream = new Nigel.Stream(new Buffer('12'));
             stream.on('close', function () {
 
-                expect(result).to.deep.equal(['a', 1, '3abc', 1, 'de', 'fg', 1, 'hi45j1', 1, 'klm', 1, 'no45p', '1']);
+                expect(result).to.deep.equal(['a', 1, /**/ '3abc', 1, 'de', 'fg', 1, 'hi45j1', 1, 'klm', 1, 'no45p', '1']);
                 done();
             });
 
@@ -388,7 +388,6 @@ describe('Stream', function () {
 
         it('retains partial needle before needle', function (done) {
 
-
             var result = [];
 
             var stream = new Nigel.Stream(new Buffer('\r\n'));
@@ -410,6 +409,96 @@ describe('Stream', function () {
 
             stream.write('abc\r\ndefg\r\n\r\nhijk\r\r\nlmnop\r\r\n');
             stream.end();
+        });
+
+        it('emits events in correct order when nesting streams', function (done) {
+
+            var test = '1x2|3|4x|5|6|x7';
+            var result = '';
+
+            var x = new Nigel.Stream(new Buffer('x'));
+            var l = new Nigel.Stream(new Buffer('|'));
+
+            x.once('close', function () {
+
+                l.end();
+            });
+
+            l.once('close', function () {
+
+                expect(result).to.equal(test.replace(/\|/g, '[').replace(/x/g, '*'));
+                done();
+            });
+
+            x.on('needle', function () {
+
+                result += '*';
+            });
+
+            x.on('haystack', function (chunk) {
+
+                l.write(chunk);
+            });
+
+            l.on('needle', function () {
+
+                result += '[';
+            });
+
+            l.on('haystack', function (chunk) {
+
+                result += chunk.toString();
+            });
+
+            x.write(test);
+            x.end();
+        });
+    });
+
+    describe('flush()', function () {
+
+        it('emits events in correct order when nesting streams (partial needle)', function (done) {
+
+            var test = '7vx7vx7vx';
+            var result = '';
+
+            var x = new Nigel.Stream(new Buffer('x'));
+            var l = new Nigel.Stream(new Buffer('v|'));
+
+            x.once('close', function () {
+
+                l.end();
+            });
+
+            l.once('close', function () {
+
+                expect(result).to.equal(test.replace(/v\|/g, '[').replace(/x/g, '*'));
+                done();
+            });
+
+            x.on('needle', function () {
+
+                l.flush();
+                result += '*';
+            });
+
+            x.on('haystack', function (chunk) {
+
+                l.write(chunk);
+            });
+
+            l.on('needle', function () {
+
+                result += '[';
+            });
+
+            l.on('haystack', function (chunk) {
+
+                result += chunk.toString();
+            });
+
+            x.write(test);
+            x.end();
         });
     });
 });

@@ -1,7 +1,7 @@
 {
   "name": "nigel",
   "description": "BoyerMooreHorspool algorithms",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": "git://github.com/hapijs/nigel",
   "main": "index",
   "keywords": [

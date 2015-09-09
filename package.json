@@ -3,7 +3,7 @@
   "description": "BoyerMooreHorspool algorithms",
   "version": "1.0.1",
   "repository": "git://github.com/hapijs/nigel",
-  "main": "index",
+  "main": "lib/index.js",
   "keywords": [
     "boyer-moore-horspool",
     "algorithms",
@@ -12,7 +12,7 @@
     "stream"
   ],
   "engines": {
-    "node": ">=0.10.32"
+    "node": ">=0.10.40"
   },
   "dependencies": {
     "hoek": "2.x.x",
@@ -23,12 +23,8 @@
     "lab": "5.x.x"
   },
   "scripts": {
-    "test": "make test-cov"
+    "test": "lab -a code -t 100 -L",
+    "test-cov-html": "lab -a code -r html -o coverage.html"
   },
-  "licenses": [
-    {
-      "type": "BSD",
-      "url": "http://github.com/hapijs/nigel/raw/master/LICENSE"
-    }
-  ]
+  "license": "BSD-3-Clause"
 }

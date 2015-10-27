@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "code": "1.x.x",
-    "eslint-config-hapi": "3.x.x",
     "lab": "6.x.x"
   },
   "scripts": {

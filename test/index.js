@@ -1,29 +1,31 @@
+'use strict';
+
 // Load modules
 
-var Code = require('code');
-var Lab = require('lab');
-var Nigel = require('..');
-var Vise = require('vise');
+const Code = require('code');
+const Lab = require('lab');
+const Nigel = require('..');
+const Vise = require('vise');
 
 
 // Declare internals
 
-var internals = {};
+const internals = {};
 
 
 // Test shortcuts
 
-var lab = exports.lab = Lab.script();
-var describe = lab.describe;
-var it = lab.it;
-var expect = Code.expect;
+const lab = exports.lab = Lab.script();
+const describe = lab.describe;
+const it = lab.it;
+const expect = Code.expect;
 
 
-describe('compile()', function () {
+describe('compile()', () => {
 
-    it('processes needle', function (done) {
+    it('processes needle', (done) => {
 
-        var needle = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        const needle = new Buffer('abcdefghijklmnopqrstuvwxyz');
         expect(Nigel.compile(needle)).to.deep.equal({
             value: needle,
             lastPos: 25,
@@ -35,9 +37,9 @@ describe('compile()', function () {
         done();
     });
 
-    it('throws on empty needle', function (done) {
+    it('throws on empty needle', (done) => {
 
-        expect(function () {
+        expect(() => {
 
             Nigel.compile(new Buffer(''));
         }).to.throw('Missing needle');
@@ -45,9 +47,9 @@ describe('compile()', function () {
         done();
     });
 
-    it('throws on empty needle', function (done) {
+    it('throws on empty needle', (done) => {
 
-        expect(function () {
+        expect(() => {
 
             Nigel.compile();
         }).to.throw('Missing needle');
@@ -56,63 +58,63 @@ describe('compile()', function () {
     });
 });
 
-describe('horspool()', function () {
+describe('horspool()', () => {
 
-    it('finds needle', function (done) {
+    it('finds needle', (done) => {
 
-        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        var needle = new Buffer('mnopq');
+        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        const needle = new Buffer('mnopq');
 
         expect(Nigel.horspool(haystack, needle)).to.equal(12);
         done();
     });
 
-    it('does not find needle', function (done) {
+    it('does not find needle', (done) => {
 
-        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        var needle = new Buffer('mnxpq');
-
-        expect(Nigel.horspool(haystack, needle)).to.equal(-1);
-        done();
-    });
-
-    it('does not find needle (tail match)', function (done) {
-
-        var haystack = new Buffer('q2q2q2q2q');
-        var needle = new Buffer('22q');
+        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        const needle = new Buffer('mnxpq');
 
         expect(Nigel.horspool(haystack, needle)).to.equal(-1);
         done();
     });
 
-    it('finds needle from position', function (done) {
+    it('does not find needle (tail match)', (done) => {
 
-        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        var needle = new Buffer('mnopq');
+        const haystack = new Buffer('q2q2q2q2q');
+        const needle = new Buffer('22q');
+
+        expect(Nigel.horspool(haystack, needle)).to.equal(-1);
+        done();
+    });
+
+    it('finds needle from position', (done) => {
+
+        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        const needle = new Buffer('mnopq');
 
         expect(Nigel.horspool(haystack, needle, 11)).to.equal(12);
         done();
     });
 
-    it('does not find needle from position', function (done) {
+    it('does not find needle from position', (done) => {
 
-        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        var needle = new Buffer('mnopq');
+        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        const needle = new Buffer('mnopq');
 
         expect(Nigel.horspool(haystack, needle, 13)).to.equal(-1);
         done();
     });
 
-    it('finds needle in vise haystack', function (done) {
+    it('finds needle in vise haystack', (done) => {
 
-        var haystack = new Vise([new Buffer('abcdefghijklmn'), new Buffer('opqrstuvwxyz')]);
+        const haystack = new Vise([new Buffer('abcdefghijklmn'), new Buffer('opqrstuvwxyz')]);
         expect(Nigel.horspool(haystack, new Buffer('mnopq'))).to.equal(12);
         done();
     });
 
-    it('finds needle in pushed vise haystack', function (done) {
+    it('finds needle in pushed vise haystack', (done) => {
 
-        var haystack = new Vise();
+        const haystack = new Vise();
         haystack.push(new Buffer('abcdefghijklmn'));
         haystack.push(new Buffer('opqrstuvwxyz'));
         expect(Nigel.horspool(haystack, new Buffer('mnopq'))).to.equal(12);
@@ -120,64 +122,64 @@ describe('horspool()', function () {
     });
 });
 
-describe('all()', function () {
+describe('all()', () => {
 
-    it('finds needle', function (done) {
+    it('finds needle', (done) => {
 
-        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        var needle = new Buffer('mnopq');
+        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        const needle = new Buffer('mnopq');
 
         expect(Nigel.all(haystack, needle)).to.deep.equal([12]);
         done();
     });
 
-    it('does not find needle', function (done) {
+    it('does not find needle', (done) => {
 
-        var haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        var needle = new Buffer('mno2pq');
+        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        const needle = new Buffer('mno2pq');
 
         expect(Nigel.all(haystack, needle)).to.deep.equal([]);
         done();
     });
 
-    it('finds multiple needles', function (done) {
+    it('finds multiple needles', (done) => {
 
-        var haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
-        var needle = new Buffer('123');
+        const haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
+        const needle = new Buffer('123');
 
         expect(Nigel.all(haystack, needle)).to.deep.equal([3, 9, 15, 21, 27, 33, 39, 45]);
         done();
     });
 
-    it('finds multiple needles from position', function (done) {
+    it('finds multiple needles from position', (done) => {
 
-        var haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
-        var needle = new Buffer('123');
+        const haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
+        const needle = new Buffer('123');
 
         expect(Nigel.all(haystack, needle, 11)).to.deep.equal([15, 21, 27, 33, 39, 45]);
         done();
     });
 });
 
-describe('Stream', function () {
+describe('Stream', () => {
 
-    it('parses a stream haystack', function (done) {
+    it('parses a stream haystack', (done) => {
 
-        var result = [];
+        const result = [];
 
-        var stream = new Nigel.Stream(new Buffer('123'));
-        stream.on('close', function () {
+        const stream = new Nigel.Stream(new Buffer('123'));
+        stream.on('close', () => {
 
             expect(result).to.deep.equal(['abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
             done();
         });
 
-        stream.on('needle', function () {
+        stream.on('needle', () => {
 
             result.push(1);
         });
 
-        stream.on('haystack', function (chunk) {
+        stream.on('haystack', (chunk) => {
 
             result.push(chunk.toString());
         });
@@ -191,23 +193,23 @@ describe('Stream', function () {
         stream.end();
     });
 
-    it('flushes data buffers when more recent one is bigger than needle', function (done) {
+    it('flushes data buffers when more recent one is bigger than needle', (done) => {
 
-        var result = [];
+        const result = [];
 
-        var stream = new Nigel.Stream(new Buffer('123'));
-        stream.on('close', function () {
+        const stream = new Nigel.Stream(new Buffer('123'));
+        stream.on('close', () => {
 
             expect(result).to.deep.equal(['abc', null, 'de', 'fghij', 'klmnop', 'q', null, 'r', 'stuv', 'wxy', 'zabc']);
             done();
         });
 
-        stream.on('needle', function () {
+        stream.on('needle', () => {
 
             result.push(null);
         });
 
-        stream.on('haystack', function (chunk, g) {
+        stream.on('haystack', (chunk, g) => {
 
             expect(stream._haystack.length).to.be.lessThan(7);
             result.push(chunk.toString());
@@ -223,23 +225,23 @@ describe('Stream', function () {
         stream.end();
     });
 
-    it('parses a stream haystack (partial needle first)', function (done) {
+    it('parses a stream haystack (partial needle first)', (done) => {
 
-        var result = [];
+        const result = [];
 
-        var stream = new Nigel.Stream(new Buffer('123'));
-        stream.on('close', function () {
+        const stream = new Nigel.Stream(new Buffer('123'));
+        stream.on('close', () => {
 
             expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
             done();
         });
 
-        stream.on('needle', function () {
+        stream.on('needle', () => {
 
             result.push(1);
         });
 
-        stream.on('haystack', function (chunk) {
+        stream.on('haystack', (chunk) => {
 
             result.push(chunk.toString());
         });
@@ -254,23 +256,23 @@ describe('Stream', function () {
         stream.end();
     });
 
-    it('parses a stream haystack (partial needle last)', function (done) {
+    it('parses a stream haystack (partial needle last)', (done) => {
 
-        var result = [];
+        const result = [];
 
-        var stream = new Nigel.Stream(new Buffer('123'));
-        stream.on('close', function () {
+        const stream = new Nigel.Stream(new Buffer('123'));
+        stream.on('close', () => {
 
             expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop', '1']);
             done();
         });
 
-        stream.on('needle', function () {
+        stream.on('needle', () => {
 
             result.push(1);
         });
 
-        stream.on('haystack', function (chunk) {
+        stream.on('haystack', (chunk) => {
 
             result.push(chunk.toString());
         });
@@ -285,25 +287,25 @@ describe('Stream', function () {
         stream.end();
     });
 
-    describe('needle()', function () {
+    describe('needle()', () => {
 
-        it('changes needle mid stream', function (done) {
+        it('changes needle mid stream', (done) => {
 
-            var result = [];
+            const result = [];
 
-            var stream = new Nigel.Stream(new Buffer('123'));
-            stream.on('close', function () {
+            const stream = new Nigel.Stream(new Buffer('123'));
+            stream.on('close', () => {
 
                 expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
                 done();
             });
 
-            stream.on('needle', function () {
+            stream.on('needle', () => {
 
                 result.push(1);
             });
 
-            stream.on('haystack', function (chunk) {
+            stream.on('haystack', (chunk) => {
 
                 result.push(chunk.toString());
             });
@@ -319,23 +321,23 @@ describe('Stream', function () {
             stream.end();
         });
 
-        it('changes needle mid stream (on haystack)', function (done) {
+        it('changes needle mid stream (on haystack)', (done) => {
 
-            var result = [];
+            const result = [];
 
-            var stream = new Nigel.Stream(new Buffer('123'));
-            stream.on('close', function () {
+            const stream = new Nigel.Stream(new Buffer('123'));
+            stream.on('close', () => {
 
                 expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', /**/ '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
                 done();
             });
 
-            stream.on('needle', function () {
+            stream.on('needle', () => {
 
                 result.push(1);
             });
 
-            stream.on('haystack', function (chunk) {
+            stream.on('haystack', (chunk) => {
 
                 result.push(chunk.toString());
                 if (result.length === 5) {                  // After getting 'fg'
@@ -353,18 +355,18 @@ describe('Stream', function () {
             stream.end();
         });
 
-        it('changes needle mid stream (on needle)', function (done) {
+        it('changes needle mid stream (on needle)', (done) => {
 
-            var result = [];
+            const result = [];
 
-            var stream = new Nigel.Stream(new Buffer('12'));
-            stream.on('close', function () {
+            const stream = new Nigel.Stream(new Buffer('12'));
+            stream.on('close', () => {
 
                 expect(result).to.deep.equal(['a', 1, /**/ '3abc', 1, 'de', 'fg', 1, 'hi45j1', 1, 'klm', 1, 'no45p', '1']);
                 done();
             });
 
-            stream.on('needle', function () {
+            stream.on('needle', () => {
 
                 result.push(1);
                 if (result.length === 2) {                  // After first needle
@@ -372,7 +374,7 @@ describe('Stream', function () {
                 }
             });
 
-            stream.on('haystack', function (chunk) {
+            stream.on('haystack', (chunk) => {
 
                 result.push(chunk.toString());
             });
@@ -387,23 +389,23 @@ describe('Stream', function () {
             stream.end();
         });
 
-        it('retains partial needle before needle', function (done) {
+        it('retains partial needle before needle', (done) => {
 
-            var result = [];
+            const result = [];
 
-            var stream = new Nigel.Stream(new Buffer('\r\n'));
-            stream.on('close', function () {
+            const stream = new Nigel.Stream(new Buffer('\r\n'));
+            stream.on('close', () => {
 
                 expect(result).to.deep.equal(['abc', 1, 'defg', 1, 1, 'hijk\r', 1, 'lmnop\r', 1]);
                 done();
             });
 
-            stream.on('needle', function () {
+            stream.on('needle', () => {
 
                 result.push(1);
             });
 
-            stream.on('haystack', function (chunk) {
+            stream.on('haystack', (chunk) => {
 
                 result.push(chunk.toString());
             });
@@ -412,43 +414,43 @@ describe('Stream', function () {
             stream.end();
         });
 
-        it('emits events in correct order when nesting streams', function (done) {
+        it('emits events in correct order when nesting streams', (done) => {
 
-            var test = '1x2|3|4x|5|6|x7';
-            var result = '';
+            const test = '1x2|3|4x|5|6|x7';
+            let result = '';
 
-            var x = new Nigel.Stream(new Buffer('x'));
-            var l = new Nigel.Stream(new Buffer('|'));
+            const x = new Nigel.Stream(new Buffer('x'));
+            const l = new Nigel.Stream(new Buffer('|'));
 
-            x.once('close', function () {
+            x.once('close', () => {
 
                 l.end();
             });
 
-            l.once('close', function () {
+            l.once('close', () => {
 
                 expect(result).to.equal(test.replace(/\|/g, '[').replace(/x/g, '*'));
                 done();
             });
 
-            x.on('needle', function () {
+            x.on('needle', () => {
 
-                result += '*';
+                result = result + '*';
             });
 
-            x.on('haystack', function (chunk) {
+            x.on('haystack', (chunk) => {
 
                 l.write(chunk);
             });
 
-            l.on('needle', function () {
+            l.on('needle', () => {
 
-                result += '[';
+                result = result + '[';
             });
 
-            l.on('haystack', function (chunk) {
+            l.on('haystack', (chunk) => {
 
-                result += chunk.toString();
+                result = result + chunk.toString();
             });
 
             x.write(test);
@@ -456,46 +458,46 @@ describe('Stream', function () {
         });
     });
 
-    describe('flush()', function () {
+    describe('flush()', () => {
 
-        it('emits events in correct order when nesting streams (partial needle)', function (done) {
+        it('emits events in correct order when nesting streams (partial needle)', (done) => {
 
-            var test = '7vx7vx7vx';
-            var result = '';
+            const test = '7vx7vx7vx';
+            let result = '';
 
-            var x = new Nigel.Stream(new Buffer('x'));
-            var l = new Nigel.Stream(new Buffer('v|'));
+            const x = new Nigel.Stream(new Buffer('x'));
+            const l = new Nigel.Stream(new Buffer('v|'));
 
-            x.once('close', function () {
+            x.once('close', () => {
 
                 l.end();
             });
 
-            l.once('close', function () {
+            l.once('close', () => {
 
                 expect(result).to.equal(test.replace(/v\|/g, '[').replace(/x/g, '*'));
                 done();
             });
 
-            x.on('needle', function () {
+            x.on('needle', () => {
 
                 l.flush();
-                result += '*';
+                result = result + '*';
             });
 
-            x.on('haystack', function (chunk) {
+            x.on('haystack', (chunk) => {
 
                 l.write(chunk);
             });
 
-            l.on('needle', function () {
+            l.on('needle', () => {
 
-                result += '[';
+                result = result + '[';
             });
 
-            l.on('haystack', function (chunk) {
+            l.on('haystack', (chunk) => {
 
-                result += chunk.toString();
+                result = result + chunk.toString();
             });
 
             x.write(test);

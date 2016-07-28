@@ -26,7 +26,7 @@ describe('compile()', () => {
     it('processes needle', (done) => {
 
         const needle = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        expect(Nigel.compile(needle)).to.deep.equal({
+        expect(Nigel.compile(needle)).to.equal({
             value: needle,
             lastPos: 25,
             last: 122,
@@ -129,7 +129,7 @@ describe('all()', () => {
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnopq');
 
-        expect(Nigel.all(haystack, needle)).to.deep.equal([12]);
+        expect(Nigel.all(haystack, needle)).to.equal([12]);
         done();
     });
 
@@ -138,7 +138,7 @@ describe('all()', () => {
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mno2pq');
 
-        expect(Nigel.all(haystack, needle)).to.deep.equal([]);
+        expect(Nigel.all(haystack, needle)).to.equal([]);
         done();
     });
 
@@ -147,7 +147,7 @@ describe('all()', () => {
         const haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
         const needle = new Buffer('123');
 
-        expect(Nigel.all(haystack, needle)).to.deep.equal([3, 9, 15, 21, 27, 33, 39, 45]);
+        expect(Nigel.all(haystack, needle)).to.equal([3, 9, 15, 21, 27, 33, 39, 45]);
         done();
     });
 
@@ -156,7 +156,7 @@ describe('all()', () => {
         const haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
         const needle = new Buffer('123');
 
-        expect(Nigel.all(haystack, needle, 11)).to.deep.equal([15, 21, 27, 33, 39, 45]);
+        expect(Nigel.all(haystack, needle, 11)).to.equal([15, 21, 27, 33, 39, 45]);
         done();
     });
 });
@@ -170,7 +170,7 @@ describe('Stream', () => {
         const stream = new Nigel.Stream(new Buffer('123'));
         stream.on('close', () => {
 
-            expect(result).to.deep.equal(['abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
+            expect(result).to.equal(['abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
             done();
         });
 
@@ -200,7 +200,7 @@ describe('Stream', () => {
         const stream = new Nigel.Stream(new Buffer('123'));
         stream.on('close', () => {
 
-            expect(result).to.deep.equal(['abc', null, 'de', 'fghij', 'klmnop', 'q', null, 'r', 'stuv', 'wxy', 'zabc']);
+            expect(result).to.equal(['abc', null, 'de', 'fghij', 'klmnop', 'q', null, 'r', 'stuv', 'wxy', 'zabc']);
             done();
         });
 
@@ -232,7 +232,7 @@ describe('Stream', () => {
         const stream = new Nigel.Stream(new Buffer('123'));
         stream.on('close', () => {
 
-            expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
+            expect(result).to.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
             done();
         });
 
@@ -263,7 +263,7 @@ describe('Stream', () => {
         const stream = new Nigel.Stream(new Buffer('123'));
         stream.on('close', () => {
 
-            expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop', '1']);
+            expect(result).to.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop', '1']);
             done();
         });
 
@@ -296,7 +296,7 @@ describe('Stream', () => {
             const stream = new Nigel.Stream(new Buffer('123'));
             stream.on('close', () => {
 
-                expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
+                expect(result).to.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
                 done();
             });
 
@@ -328,7 +328,7 @@ describe('Stream', () => {
             const stream = new Nigel.Stream(new Buffer('123'));
             stream.on('close', () => {
 
-                expect(result).to.deep.equal([1, 'abc', 1, 'de', 'fg', /**/ '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
+                expect(result).to.equal([1, 'abc', 1, 'de', 'fg', /**/ '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
                 done();
             });
 
@@ -362,7 +362,7 @@ describe('Stream', () => {
             const stream = new Nigel.Stream(new Buffer('12'));
             stream.on('close', () => {
 
-                expect(result).to.deep.equal(['a', 1, /**/ '3abc', 1, 'de', 'fg', 1, 'hi45j1', 1, 'klm', 1, 'no45p', '1']);
+                expect(result).to.equal(['a', 1, /**/ '3abc', 1, 'de', 'fg', 1, 'hi45j1', 1, 'klm', 1, 'no45p', '1']);
                 done();
             });
 
@@ -396,7 +396,7 @@ describe('Stream', () => {
             const stream = new Nigel.Stream(new Buffer('\r\n'));
             stream.on('close', () => {
 
-                expect(result).to.deep.equal(['abc', 1, 'defg', 1, 1, 'hijk\r', 1, 'lmnop\r', 1]);
+                expect(result).to.equal(['abc', 1, 'defg', 1, 1, 'hijk\r', 1, 'lmnop\r', 1]);
                 done();
             });
 

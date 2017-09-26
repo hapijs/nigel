@@ -5,6 +5,7 @@
 const Code = require('code');
 const Lab = require('lab');
 const Nigel = require('..');
+const Teamwork = require('teamwork');
 const Vise = require('vise');
 
 
@@ -15,15 +16,13 @@ const internals = {};
 
 // Test shortcuts
 
-const lab = exports.lab = Lab.script();
-const describe = lab.describe;
-const it = lab.it;
+const { describe, it } = exports.lab = Lab.script();
 const expect = Code.expect;
 
 
 describe('compile()', () => {
 
-    it('processes needle', (done) => {
+    it('processes needle', async () => {
 
         const needle = new Buffer('abcdefghijklmnopqrstuvwxyz');
         expect(Nigel.compile(needle)).to.equal({
@@ -33,145 +32,129 @@ describe('compile()', () => {
             length: 26,
             badCharShift: new Buffer([26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26])
         });
-
-        done();
     });
 
-    it('throws on empty needle', (done) => {
+    it('throws on empty needle', async () => {
 
         expect(() => {
 
             Nigel.compile(new Buffer(''));
         }).to.throw('Missing needle');
-
-        done();
     });
 
-    it('throws on empty needle', (done) => {
+    it('throws on empty needle', async () => {
 
         expect(() => {
 
             Nigel.compile();
         }).to.throw('Missing needle');
-
-        done();
     });
 });
 
 describe('horspool()', () => {
 
-    it('finds needle', (done) => {
+    it('finds needle', async () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnopq');
 
         expect(Nigel.horspool(haystack, needle)).to.equal(12);
-        done();
     });
 
-    it('does not find needle', (done) => {
+    it('does not find needle', async () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnxpq');
 
         expect(Nigel.horspool(haystack, needle)).to.equal(-1);
-        done();
     });
 
-    it('does not find needle (tail match)', (done) => {
+    it('does not find needle (tail match)', async () => {
 
         const haystack = new Buffer('q2q2q2q2q');
         const needle = new Buffer('22q');
 
         expect(Nigel.horspool(haystack, needle)).to.equal(-1);
-        done();
     });
 
-    it('finds needle from position', (done) => {
+    it('finds needle from position', async () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnopq');
 
         expect(Nigel.horspool(haystack, needle, 11)).to.equal(12);
-        done();
     });
 
-    it('does not find needle from position', (done) => {
+    it('does not find needle from position', async () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnopq');
 
         expect(Nigel.horspool(haystack, needle, 13)).to.equal(-1);
-        done();
     });
 
-    it('finds needle in vise haystack', (done) => {
+    it('finds needle in vise haystack', async () => {
 
         const haystack = new Vise([new Buffer('abcdefghijklmn'), new Buffer('opqrstuvwxyz')]);
         expect(Nigel.horspool(haystack, new Buffer('mnopq'))).to.equal(12);
-        done();
     });
 
-    it('finds needle in pushed vise haystack', (done) => {
+    it('finds needle in pushed vise haystack', async () => {
 
         const haystack = new Vise();
         haystack.push(new Buffer('abcdefghijklmn'));
         haystack.push(new Buffer('opqrstuvwxyz'));
         expect(Nigel.horspool(haystack, new Buffer('mnopq'))).to.equal(12);
-        done();
     });
 });
 
 describe('all()', () => {
 
-    it('finds needle', (done) => {
+    it('finds needle', async () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnopq');
 
         expect(Nigel.all(haystack, needle)).to.equal([12]);
-        done();
     });
 
-    it('does not find needle', (done) => {
+    it('does not find needle', async () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mno2pq');
 
         expect(Nigel.all(haystack, needle)).to.equal([]);
-        done();
     });
 
-    it('finds multiple needles', (done) => {
+    it('finds multiple needles', async () => {
 
         const haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
         const needle = new Buffer('123');
 
         expect(Nigel.all(haystack, needle)).to.equal([3, 9, 15, 21, 27, 33, 39, 45]);
-        done();
     });
 
-    it('finds multiple needles from position', (done) => {
+    it('finds multiple needles from position', async () => {
 
         const haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
         const needle = new Buffer('123');
 
         expect(Nigel.all(haystack, needle, 11)).to.equal([15, 21, 27, 33, 39, 45]);
-        done();
     });
 });
 
 describe('Stream', () => {
 
-    it('parses a stream haystack', (done) => {
+    it('parses a stream haystack', async () => {
 
+        const team = new Teamwork.Team({ meetings: 1 });
         const result = [];
 
         const stream = new Nigel.Stream(new Buffer('123'));
         stream.on('close', () => {
 
             expect(result).to.equal(['abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
-            done();
+            team.attend();
         });
 
         stream.on('needle', () => {
@@ -191,17 +174,20 @@ describe('Stream', () => {
         stream.write('123');
         stream.write('nop');
         stream.end();
+
+        await team.work;
     });
 
-    it('flushes data buffers when more recent one is bigger than needle', (done) => {
+    it('flushes data buffers when more recent one is bigger than needle', async () => {
 
+        const team = new Teamwork.Team({ meetings: 1 });
         const result = [];
 
         const stream = new Nigel.Stream(new Buffer('123'));
         stream.on('close', () => {
 
             expect(result).to.equal(['abc', null, 'de', 'fghij', 'klmnop', 'q', null, 'r', 'stuv', 'wxy', 'zabc']);
-            done();
+            team.attend();
         });
 
         stream.on('needle', () => {
@@ -223,17 +209,20 @@ describe('Stream', () => {
         stream.write('wxy');
         stream.write('zabc');
         stream.end();
+
+        await team.work;
     });
 
-    it('parses a stream haystack (partial needle first)', (done) => {
+    it('parses a stream haystack (partial needle first)', async () => {
 
+        const team = new Teamwork.Team({ meetings: 1 });
         const result = [];
 
         const stream = new Nigel.Stream(new Buffer('123'));
         stream.on('close', () => {
 
             expect(result).to.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
-            done();
+            team.attend();
         });
 
         stream.on('needle', () => {
@@ -254,17 +243,20 @@ describe('Stream', () => {
         stream.write('123');
         stream.write('nop');
         stream.end();
+
+        await team.work;
     });
 
-    it('parses a stream haystack (partial needle last)', (done) => {
+    it('parses a stream haystack (partial needle last)', async () => {
 
+        const team = new Teamwork.Team({ meetings: 1 });
         const result = [];
 
         const stream = new Nigel.Stream(new Buffer('123'));
         stream.on('close', () => {
 
             expect(result).to.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop', '1']);
-            done();
+            team.attend();
         });
 
         stream.on('needle', () => {
@@ -285,19 +277,23 @@ describe('Stream', () => {
         stream.write('123');
         stream.write('nop1');
         stream.end();
+
+        await team.work;
+
     });
 
     describe('needle()', () => {
 
-        it('changes needle mid stream', (done) => {
+        it('changes needle mid stream', async () => {
 
+            const team = new Teamwork.Team({ meetings: 1 });
             const result = [];
 
             const stream = new Nigel.Stream(new Buffer('123'));
             stream.on('close', () => {
 
                 expect(result).to.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
-                done();
+                team.attend();
             });
 
             stream.on('needle', () => {
@@ -319,17 +315,20 @@ describe('Stream', () => {
             stream.write('123');
             stream.write('no45p1');
             stream.end();
+
+            await team.work;
         });
 
-        it('changes needle mid stream (on haystack)', (done) => {
+        it('changes needle mid stream (on haystack)', async () => {
 
+            const team = new Teamwork.Team({ meetings: 1 });
             const result = [];
 
             const stream = new Nigel.Stream(new Buffer('123'));
             stream.on('close', () => {
 
                 expect(result).to.equal([1, 'abc', 1, 'de', 'fg', /**/ '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
-                done();
+                team.attend();
             });
 
             stream.on('needle', () => {
@@ -353,17 +352,20 @@ describe('Stream', () => {
             stream.write('123');
             stream.write('no45p1');
             stream.end();
+
+            await team.work;
         });
 
-        it('changes needle mid stream (on needle)', (done) => {
+        it('changes needle mid stream (on needle)', async () => {
 
+            const team = new Teamwork.Team({ meetings: 1 });
             const result = [];
 
             const stream = new Nigel.Stream(new Buffer('12'));
             stream.on('close', () => {
 
                 expect(result).to.equal(['a', 1, /**/ '3abc', 1, 'de', 'fg', 1, 'hi45j1', 1, 'klm', 1, 'no45p', '1']);
-                done();
+                team.attend();
             });
 
             stream.on('needle', () => {
@@ -387,17 +389,20 @@ describe('Stream', () => {
             stream.write('123');
             stream.write('no45p1');
             stream.end();
+
+            await team.work;
         });
 
-        it('retains partial needle before needle', (done) => {
+        it('retains partial needle before needle', async () => {
 
+            const team = new Teamwork.Team({ meetings: 1 });
             const result = [];
 
             const stream = new Nigel.Stream(new Buffer('\r\n'));
             stream.on('close', () => {
 
                 expect(result).to.equal(['abc', 1, 'defg', 1, 1, 'hijk\r', 1, 'lmnop\r', 1]);
-                done();
+                team.attend();
             });
 
             stream.on('needle', () => {
@@ -412,10 +417,13 @@ describe('Stream', () => {
 
             stream.write('abc\r\ndefg\r\n\r\nhijk\r\r\nlmnop\r\r\n');
             stream.end();
+
+            await team.work;
         });
 
-        it('emits events in correct order when nesting streams', (done) => {
+        it('emits events in correct order when nesting streams', async () => {
 
+            const team = new Teamwork.Team({ meetings: 1 });
             const test = '1x2|3|4x|5|6|x7';
             let result = '';
 
@@ -430,7 +438,7 @@ describe('Stream', () => {
             l.once('close', () => {
 
                 expect(result).to.equal(test.replace(/\|/g, '[').replace(/x/g, '*'));
-                done();
+                team.attend();
             });
 
             x.on('needle', () => {
@@ -455,13 +463,16 @@ describe('Stream', () => {
 
             x.write(test);
             x.end();
+
+            await team.work;
         });
     });
 
     describe('flush()', () => {
 
-        it('emits events in correct order when nesting streams (partial needle)', (done) => {
+        it('emits events in correct order when nesting streams (partial needle)', async () => {
 
+            const team = new Teamwork.Team({ meetings: 1 });
             const test = '7vx7vx7vx';
             let result = '';
 
@@ -476,7 +487,7 @@ describe('Stream', () => {
             l.once('close', () => {
 
                 expect(result).to.equal(test.replace(/v\|/g, '[').replace(/x/g, '*'));
-                done();
+                team.attend();
             });
 
             x.on('needle', () => {
@@ -502,6 +513,8 @@ describe('Stream', () => {
 
             x.write(test);
             x.end();
+
+            await team.work;
         });
     });
 });

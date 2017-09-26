@@ -1,7 +1,7 @@
 {
   "name": "nigel",
   "description": "BoyerMooreHorspool algorithms",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "repository": "git://github.com/hapijs/nigel",
   "main": "lib/index.js",
   "keywords": [
@@ -12,15 +12,16 @@
     "stream"
   ],
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=8.0.0"
   },
   "dependencies": {
-    "hoek": "4.x.x",
-    "vise": "2.x.x"
+    "hoek": "5.x.x",
+    "vise": "3.x.x"
   },
   "devDependencies": {
-    "code": "4.x.x",
-    "lab": "13.x.x"
+    "code": "5.x.x",
+    "lab": "14.x.x",
+    "teamwork": "2.x.x"
   },
   "scripts": {
     "test": "lab -a code -t 100 -L",

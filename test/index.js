@@ -22,7 +22,7 @@ const expect = Code.expect;
 
 describe('compile()', () => {
 
-    it('processes needle', async () => {
+    it('processes needle', () => {
 
         const needle = new Buffer('abcdefghijklmnopqrstuvwxyz');
         expect(Nigel.compile(needle)).to.equal({
@@ -34,7 +34,7 @@ describe('compile()', () => {
         });
     });
 
-    it('throws on empty needle', async () => {
+    it('throws on empty needle', () => {
 
         expect(() => {
 
@@ -42,7 +42,7 @@ describe('compile()', () => {
         }).to.throw('Missing needle');
     });
 
-    it('throws on empty needle', async () => {
+    it('throws on empty needle', () => {
 
         expect(() => {
 
@@ -53,7 +53,7 @@ describe('compile()', () => {
 
 describe('horspool()', () => {
 
-    it('finds needle', async () => {
+    it('finds needle', () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnopq');
@@ -61,7 +61,7 @@ describe('horspool()', () => {
         expect(Nigel.horspool(haystack, needle)).to.equal(12);
     });
 
-    it('does not find needle', async () => {
+    it('does not find needle', () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnxpq');
@@ -69,7 +69,7 @@ describe('horspool()', () => {
         expect(Nigel.horspool(haystack, needle)).to.equal(-1);
     });
 
-    it('does not find needle (tail match)', async () => {
+    it('does not find needle (tail match)', () => {
 
         const haystack = new Buffer('q2q2q2q2q');
         const needle = new Buffer('22q');
@@ -77,7 +77,7 @@ describe('horspool()', () => {
         expect(Nigel.horspool(haystack, needle)).to.equal(-1);
     });
 
-    it('finds needle from position', async () => {
+    it('finds needle from position', () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnopq');
@@ -85,7 +85,7 @@ describe('horspool()', () => {
         expect(Nigel.horspool(haystack, needle, 11)).to.equal(12);
     });
 
-    it('does not find needle from position', async () => {
+    it('does not find needle from position', () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnopq');
@@ -93,13 +93,13 @@ describe('horspool()', () => {
         expect(Nigel.horspool(haystack, needle, 13)).to.equal(-1);
     });
 
-    it('finds needle in vise haystack', async () => {
+    it('finds needle in vise haystack', () => {
 
         const haystack = new Vise([new Buffer('abcdefghijklmn'), new Buffer('opqrstuvwxyz')]);
         expect(Nigel.horspool(haystack, new Buffer('mnopq'))).to.equal(12);
     });
 
-    it('finds needle in pushed vise haystack', async () => {
+    it('finds needle in pushed vise haystack', () => {
 
         const haystack = new Vise();
         haystack.push(new Buffer('abcdefghijklmn'));
@@ -110,7 +110,7 @@ describe('horspool()', () => {
 
 describe('all()', () => {
 
-    it('finds needle', async () => {
+    it('finds needle', () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mnopq');
@@ -118,7 +118,7 @@ describe('all()', () => {
         expect(Nigel.all(haystack, needle)).to.equal([12]);
     });
 
-    it('does not find needle', async () => {
+    it('does not find needle', () => {
 
         const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
         const needle = new Buffer('mno2pq');
@@ -126,7 +126,7 @@ describe('all()', () => {
         expect(Nigel.all(haystack, needle)).to.equal([]);
     });
 
-    it('finds multiple needles', async () => {
+    it('finds multiple needles', () => {
 
         const haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
         const needle = new Buffer('123');
@@ -134,7 +134,7 @@ describe('all()', () => {
         expect(Nigel.all(haystack, needle)).to.equal([3, 9, 15, 21, 27, 33, 39, 45]);
     });
 
-    it('finds multiple needles from position', async () => {
+    it('finds multiple needles from position', () => {
 
         const haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
         const needle = new Buffer('123');
@@ -147,7 +147,7 @@ describe('Stream', () => {
 
     it('parses a stream haystack', async () => {
 
-        const team = new Teamwork.Team({ meetings: 1 });
+        const team = new Teamwork();
         const result = [];
 
         const stream = new Nigel.Stream(new Buffer('123'));
@@ -180,7 +180,7 @@ describe('Stream', () => {
 
     it('flushes data buffers when more recent one is bigger than needle', async () => {
 
-        const team = new Teamwork.Team({ meetings: 1 });
+        const team = new Teamwork();
         const result = [];
 
         const stream = new Nigel.Stream(new Buffer('123'));
@@ -215,7 +215,7 @@ describe('Stream', () => {
 
     it('parses a stream haystack (partial needle first)', async () => {
 
-        const team = new Teamwork.Team({ meetings: 1 });
+        const team = new Teamwork();
         const result = [];
 
         const stream = new Nigel.Stream(new Buffer('123'));
@@ -249,7 +249,7 @@ describe('Stream', () => {
 
     it('parses a stream haystack (partial needle last)', async () => {
 
-        const team = new Teamwork.Team({ meetings: 1 });
+        const team = new Teamwork();
         const result = [];
 
         const stream = new Nigel.Stream(new Buffer('123'));
@@ -286,7 +286,7 @@ describe('Stream', () => {
 
         it('changes needle mid stream', async () => {
 
-            const team = new Teamwork.Team({ meetings: 1 });
+            const team = new Teamwork();
             const result = [];
 
             const stream = new Nigel.Stream(new Buffer('123'));
@@ -321,7 +321,7 @@ describe('Stream', () => {
 
         it('changes needle mid stream (on haystack)', async () => {
 
-            const team = new Teamwork.Team({ meetings: 1 });
+            const team = new Teamwork();
             const result = [];
 
             const stream = new Nigel.Stream(new Buffer('123'));
@@ -358,7 +358,7 @@ describe('Stream', () => {
 
         it('changes needle mid stream (on needle)', async () => {
 
-            const team = new Teamwork.Team({ meetings: 1 });
+            const team = new Teamwork();
             const result = [];
 
             const stream = new Nigel.Stream(new Buffer('12'));
@@ -395,7 +395,7 @@ describe('Stream', () => {
 
         it('retains partial needle before needle', async () => {
 
-            const team = new Teamwork.Team({ meetings: 1 });
+            const team = new Teamwork();
             const result = [];
 
             const stream = new Nigel.Stream(new Buffer('\r\n'));
@@ -423,7 +423,7 @@ describe('Stream', () => {
 
         it('emits events in correct order when nesting streams', async () => {
 
-            const team = new Teamwork.Team({ meetings: 1 });
+            const team = new Teamwork();
             const test = '1x2|3|4x|5|6|x7';
             let result = '';
 
@@ -472,7 +472,7 @@ describe('Stream', () => {
 
         it('emits events in correct order when nesting streams (partial needle)', async () => {
 
-            const team = new Teamwork.Team({ meetings: 1 });
+            const team = new Teamwork();
             const test = '7vx7vx7vx';
             let result = '';
 

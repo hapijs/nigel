@@ -24,13 +24,13 @@ describe('compile()', () => {
 
     it('processes needle', () => {
 
-        const needle = new Buffer('abcdefghijklmnopqrstuvwxyz');
+        const needle = Buffer.from('abcdefghijklmnopqrstuvwxyz');
         expect(Nigel.compile(needle)).to.equal({
             value: needle,
             lastPos: 25,
             last: 122,
             length: 26,
-            badCharShift: new Buffer([26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26])
+            badCharShift: Buffer.from([26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26])
         });
     });
 
@@ -38,7 +38,7 @@ describe('compile()', () => {
 
         expect(() => {
 
-            Nigel.compile(new Buffer(''));
+            Nigel.compile(Buffer.from(''));
         }).to.throw('Missing needle');
     });
 
@@ -55,56 +55,56 @@ describe('horspool()', () => {
 
     it('finds needle', () => {
 
-        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        const needle = new Buffer('mnopq');
+        const haystack = Buffer.from('abcdefghijklmnopqrstuvwxyz');
+        const needle = Buffer.from('mnopq');
 
         expect(Nigel.horspool(haystack, needle)).to.equal(12);
     });
 
     it('does not find needle', () => {
 
-        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        const needle = new Buffer('mnxpq');
+        const haystack = Buffer.from('abcdefghijklmnopqrstuvwxyz');
+        const needle = Buffer.from('mnxpq');
 
         expect(Nigel.horspool(haystack, needle)).to.equal(-1);
     });
 
     it('does not find needle (tail match)', () => {
 
-        const haystack = new Buffer('q2q2q2q2q');
-        const needle = new Buffer('22q');
+        const haystack = Buffer.from('q2q2q2q2q');
+        const needle = Buffer.from('22q');
 
         expect(Nigel.horspool(haystack, needle)).to.equal(-1);
     });
 
     it('finds needle from position', () => {
 
-        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        const needle = new Buffer('mnopq');
+        const haystack = Buffer.from('abcdefghijklmnopqrstuvwxyz');
+        const needle = Buffer.from('mnopq');
 
         expect(Nigel.horspool(haystack, needle, 11)).to.equal(12);
     });
 
     it('does not find needle from position', () => {
 
-        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        const needle = new Buffer('mnopq');
+        const haystack = Buffer.from('abcdefghijklmnopqrstuvwxyz');
+        const needle = Buffer.from('mnopq');
 
         expect(Nigel.horspool(haystack, needle, 13)).to.equal(-1);
     });
 
     it('finds needle in vise haystack', () => {
 
-        const haystack = new Vise([new Buffer('abcdefghijklmn'), new Buffer('opqrstuvwxyz')]);
-        expect(Nigel.horspool(haystack, new Buffer('mnopq'))).to.equal(12);
+        const haystack = new Vise([Buffer.from('abcdefghijklmn'), Buffer.from('opqrstuvwxyz')]);
+        expect(Nigel.horspool(haystack, Buffer.from('mnopq'))).to.equal(12);
     });
 
     it('finds needle in pushed vise haystack', () => {
 
         const haystack = new Vise();
-        haystack.push(new Buffer('abcdefghijklmn'));
-        haystack.push(new Buffer('opqrstuvwxyz'));
-        expect(Nigel.horspool(haystack, new Buffer('mnopq'))).to.equal(12);
+        haystack.push(Buffer.from('abcdefghijklmn'));
+        haystack.push(Buffer.from('opqrstuvwxyz'));
+        expect(Nigel.horspool(haystack, Buffer.from('mnopq'))).to.equal(12);
     });
 });
 
@@ -112,32 +112,32 @@ describe('all()', () => {
 
     it('finds needle', () => {
 
-        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        const needle = new Buffer('mnopq');
+        const haystack = Buffer.from('abcdefghijklmnopqrstuvwxyz');
+        const needle = Buffer.from('mnopq');
 
         expect(Nigel.all(haystack, needle)).to.equal([12]);
     });
 
     it('does not find needle', () => {
 
-        const haystack = new Buffer('abcdefghijklmnopqrstuvwxyz');
-        const needle = new Buffer('mno2pq');
+        const haystack = Buffer.from('abcdefghijklmnopqrstuvwxyz');
+        const needle = Buffer.from('mno2pq');
 
         expect(Nigel.all(haystack, needle)).to.equal([]);
     });
 
     it('finds multiple needles', () => {
 
-        const haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
-        const needle = new Buffer('123');
+        const haystack = Buffer.from('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
+        const needle = Buffer.from('123');
 
         expect(Nigel.all(haystack, needle)).to.equal([3, 9, 15, 21, 27, 33, 39, 45]);
     });
 
     it('finds multiple needles from position', () => {
 
-        const haystack = new Buffer('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
-        const needle = new Buffer('123');
+        const haystack = Buffer.from('abc123def123ghi123jkl123mno123pqr123stu123vwx123yz');
+        const needle = Buffer.from('123');
 
         expect(Nigel.all(haystack, needle, 11)).to.equal([15, 21, 27, 33, 39, 45]);
     });
@@ -150,7 +150,7 @@ describe('Stream', () => {
         const team = new Teamwork();
         const result = [];
 
-        const stream = new Nigel.Stream(new Buffer('123'));
+        const stream = new Nigel.Stream(Buffer.from('123'));
         stream.on('close', () => {
 
             expect(result).to.equal(['abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
@@ -183,7 +183,7 @@ describe('Stream', () => {
         const team = new Teamwork();
         const result = [];
 
-        const stream = new Nigel.Stream(new Buffer('123'));
+        const stream = new Nigel.Stream(Buffer.from('123'));
         stream.on('close', () => {
 
             expect(result).to.equal(['abc', null, 'de', 'fghij', 'klmnop', 'q', null, 'r', 'stuv', 'wxy', 'zabc']);
@@ -218,7 +218,7 @@ describe('Stream', () => {
         const team = new Teamwork();
         const result = [];
 
-        const stream = new Nigel.Stream(new Buffer('123'));
+        const stream = new Nigel.Stream(Buffer.from('123'));
         stream.on('close', () => {
 
             expect(result).to.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
@@ -252,7 +252,7 @@ describe('Stream', () => {
         const team = new Teamwork();
         const result = [];
 
-        const stream = new Nigel.Stream(new Buffer('123'));
+        const stream = new Nigel.Stream(Buffer.from('123'));
         stream.on('close', () => {
 
             expect(result).to.equal([1, 'abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop', '1']);
@@ -289,7 +289,7 @@ describe('Stream', () => {
             const team = new Teamwork();
             const result = [];
 
-            const stream = new Nigel.Stream(new Buffer('123'));
+            const stream = new Nigel.Stream(Buffer.from('123'));
             stream.on('close', () => {
 
                 expect(result).to.equal([1, 'abc', 1, 'de', 'fg', '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
@@ -309,7 +309,7 @@ describe('Stream', () => {
             stream.write('12');
             stream.write('3abc123de');
             stream.write('fg12');
-            stream.needle(new Buffer('45'));
+            stream.needle(Buffer.from('45'));
             stream.write('3hi45j11');
             stream.write('23klm');
             stream.write('123');
@@ -324,7 +324,7 @@ describe('Stream', () => {
             const team = new Teamwork();
             const result = [];
 
-            const stream = new Nigel.Stream(new Buffer('123'));
+            const stream = new Nigel.Stream(Buffer.from('123'));
             stream.on('close', () => {
 
                 expect(result).to.equal([1, 'abc', 1, 'de', 'fg', /**/ '12', '3hi', 1, 'j11', '23klm', '123', 'no', 1, 'p1']);
@@ -340,7 +340,7 @@ describe('Stream', () => {
 
                 result.push(chunk.toString());
                 if (result.length === 5) {                  // After getting 'fg'
-                    stream.needle(new Buffer('45'));
+                    stream.needle(Buffer.from('45'));
                 }
             });
 
@@ -361,7 +361,7 @@ describe('Stream', () => {
             const team = new Teamwork();
             const result = [];
 
-            const stream = new Nigel.Stream(new Buffer('12'));
+            const stream = new Nigel.Stream(Buffer.from('12'));
             stream.on('close', () => {
 
                 expect(result).to.equal(['a', 1, /**/ '3abc', 1, 'de', 'fg', 1, 'hi45j1', 1, 'klm', 1, 'no45p', '1']);
@@ -372,7 +372,7 @@ describe('Stream', () => {
 
                 result.push(1);
                 if (result.length === 2) {                  // After first needle
-                    stream.needle(new Buffer('123'));
+                    stream.needle(Buffer.from('123'));
                 }
             });
 
@@ -398,7 +398,7 @@ describe('Stream', () => {
             const team = new Teamwork();
             const result = [];
 
-            const stream = new Nigel.Stream(new Buffer('\r\n'));
+            const stream = new Nigel.Stream(Buffer.from('\r\n'));
             stream.on('close', () => {
 
                 expect(result).to.equal(['abc', 1, 'defg', 1, 1, 'hijk\r', 1, 'lmnop\r', 1]);
@@ -427,8 +427,8 @@ describe('Stream', () => {
             const test = '1x2|3|4x|5|6|x7';
             let result = '';
 
-            const x = new Nigel.Stream(new Buffer('x'));
-            const l = new Nigel.Stream(new Buffer('|'));
+            const x = new Nigel.Stream(Buffer.from('x'));
+            const l = new Nigel.Stream(Buffer.from('|'));
 
             x.once('close', () => {
 
@@ -476,8 +476,8 @@ describe('Stream', () => {
             const test = '7vx7vx7vx';
             let result = '';
 
-            const x = new Nigel.Stream(new Buffer('x'));
-            const l = new Nigel.Stream(new Buffer('v|'));
+            const x = new Nigel.Stream(Buffer.from('x'));
+            const l = new Nigel.Stream(Buffer.from('v|'));
 
             x.once('close', () => {
 

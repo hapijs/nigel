@@ -11,9 +11,6 @@
     "search",
     "stream"
   ],
-  "engines": {
-    "node": ">=8.12.0"
-  },
   "dependencies": {
     "hoek": "6.x.x",
     "vise": "3.x.x"

@@ -1,4 +1,4 @@
-#nigel
+# nigel
 
 Boyer-Moore-Horspool algorithms.
 

@@ -1,5 +1,5 @@
 {
-  "name": "nigel",
+  "name": "@commercial/nigel",
   "description": "BoyerMooreHorspool algorithms",
   "version": "2.0.2",
   "repository": "git://github.com/hapijs/nigel",
@@ -11,20 +11,17 @@
     "search",
     "stream"
   ],
-  "engines": {
-    "node": ">=4.0.0"
-  },
   "dependencies": {
-    "hoek": "4.x.x",
-    "vise": "2.x.x"
+    "@commercial/hoek": "4.x.x",
+    "@commercial/vise": "2.x.x"
   },
   "devDependencies": {
-    "code": "3.x.x",
-    "lab": "10.x.x"
+    "code": "4.x.x",
+    "lab": "14.x.x"
   },
   "scripts": {
-    "test": "lab -a code -t 100 -L",
-    "test-cov-html": "lab -a code -r html -o coverage.html"
+    "test": "lab -a code -t 100 -L -l",
+    "test-cov-html": "lab -a code -r html -o coverage.html -l"
   },
-  "license": "BSD-3-Clause"
+  "license": "SEE LICENSE IN LICENSE.md"
 }

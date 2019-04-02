@@ -1,10 +1,16 @@
 {
   "name": "@hapi/nigel",
   "description": "BoyerMooreHorspool algorithms",
-  "version": "3.0.4",
+  "version": "3.1.0",
   "repository": "git://github.com/hapijs/nigel",
   "main": "lib/index.js",
-  "keywords": ["boyer-moore-horspool", "algorithms", "lookup", "search", "stream"],
+  "keywords": [
+    "boyer-moore-horspool",
+    "algorithms",
+    "lookup",
+    "search",
+    "stream"
+  ],
   "dependencies": {
     "@hapi/hoek": "6.x.x",
     "@hapi/vise": "3.x.x"

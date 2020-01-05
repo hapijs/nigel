@@ -141,7 +141,7 @@ describe('Stream', () => {
 
     it('parses a stream haystack', async () => {
 
-        const team = new Teamwork();
+        const team = new Teamwork.Team();
         const result = [];
 
         const stream = new Nigel.Stream(Buffer.from('123'));
@@ -174,7 +174,7 @@ describe('Stream', () => {
 
     it('flushes data buffers when more recent one is bigger than needle', async () => {
 
-        const team = new Teamwork();
+        const team = new Teamwork.Team();
         const result = [];
 
         const stream = new Nigel.Stream(Buffer.from('123'));
@@ -209,7 +209,7 @@ describe('Stream', () => {
 
     it('parses a stream haystack (partial needle first)', async () => {
 
-        const team = new Teamwork();
+        const team = new Teamwork.Team();
         const result = [];
 
         const stream = new Nigel.Stream(Buffer.from('123'));
@@ -243,7 +243,7 @@ describe('Stream', () => {
 
     it('parses a stream haystack (partial needle last)', async () => {
 
-        const team = new Teamwork();
+        const team = new Teamwork.Team();
         const result = [];
 
         const stream = new Nigel.Stream(Buffer.from('123'));
@@ -280,7 +280,7 @@ describe('Stream', () => {
 
         it('changes needle mid stream', async () => {
 
-            const team = new Teamwork();
+            const team = new Teamwork.Team();
             const result = [];
 
             const stream = new Nigel.Stream(Buffer.from('123'));
@@ -315,7 +315,7 @@ describe('Stream', () => {
 
         it('changes needle mid stream (on haystack)', async () => {
 
-            const team = new Teamwork();
+            const team = new Teamwork.Team();
             const result = [];
 
             const stream = new Nigel.Stream(Buffer.from('123'));
@@ -352,7 +352,7 @@ describe('Stream', () => {
 
         it('changes needle mid stream (on needle)', async () => {
 
-            const team = new Teamwork();
+            const team = new Teamwork.Team();
             const result = [];
 
             const stream = new Nigel.Stream(Buffer.from('12'));
@@ -389,7 +389,7 @@ describe('Stream', () => {
 
         it('retains partial needle before needle', async () => {
 
-            const team = new Teamwork();
+            const team = new Teamwork.Team();
             const result = [];
 
             const stream = new Nigel.Stream(Buffer.from('\r\n'));
@@ -417,7 +417,7 @@ describe('Stream', () => {
 
         it('emits events in correct order when nesting streams', async () => {
 
-            const team = new Teamwork();
+            const team = new Teamwork.Team();
             const test = '1x2|3|4x|5|6|x7';
             let result = '';
 
@@ -466,7 +466,7 @@ describe('Stream', () => {
 
         it('emits events in correct order when nesting streams (partial needle)', async () => {
 
-            const team = new Teamwork();
+            const team = new Teamwork.Team();
             const test = '7vx7vx7vx';
             let result = '';
 

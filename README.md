@@ -2,6 +2,6 @@
 
 # @hapi/nigel
 
-Boyer-Moore-Horspool algorithms.
+#### Boyer-Moore-Horspool algorithms.
 
 [![Build Status](https://secure.travis-ci.org/hapijs/nigel.svg)](http://travis-ci.org/hapijs/nigel)

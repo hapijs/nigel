@@ -1,8 +1,11 @@
 {
-  "name": "@hapi/nigel",
+  "name": "@commercial/nigel",
   "description": "BoyerMooreHorspool algorithms",
   "version": "3.1.1",
   "repository": "git://github.com/hapijs/nigel",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "main": "lib/index.js",
   "keywords": [
     "boyer-moore-horspool",
@@ -12,17 +15,17 @@
     "stream"
   ],
   "dependencies": {
-    "@hapi/hoek": "8.x.x",
-    "@hapi/vise": "3.x.x"
+    "@commercial/hoek": "^8.5.1",
+    "@commercial/vise": "^3.1.1"
   },
   "devDependencies": {
     "@hapi/code": "6.x.x",
     "@hapi/lab": "20.x.x",
-    "@hapi/teamwork": "3.x.x"
+    "@commercial/teamwork": "^3.3.1"
   },
   "scripts": {
     "test": "lab -a @hapi/code -t 100 -L",
     "test-cov-html": "lab -a @hapi/code -r html -o coverage.html"
   },
-  "license": "BSD-3-Clause"
+  "license": "SEE LICENSE IN LICENSE.md"
 }

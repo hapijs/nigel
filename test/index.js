@@ -145,10 +145,18 @@ describe('Stream', () => {
         const result = [];
 
         const stream = new Nigel.Stream(Buffer.from('123'));
+        let closed = false;
         stream.on('close', () => {
 
             expect(result).to.equal(['abc', 1, 'de', 'fg', 1, 'hij1', 1, 'klm', 1, 'nop']);
-            team.attend();
+
+            // Verify that 'close' is only emitted once.
+            expect(closed).to.equal(false);
+            closed = true;
+            setImmediate(() => {
+
+                team.attend();
+            });
         });
 
         stream.on('needle', () => {

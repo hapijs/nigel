@@ -18,8 +18,8 @@
     "stream"
   ],
   "dependencies": {
-    "@hapi/hoek": "9.x.x",
-    "@hapi/vise": "4.x.x"
+    "@hapi/hoek": "^9.0.4",
+    "@hapi/vise": "^4.0.0"
   },
   "devDependencies": {
     "@hapi/code": "8.x.x",

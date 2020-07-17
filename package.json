@@ -1,5 +1,5 @@
 {
-  "name": "@hapi/nigel",
+  "name": "@commercial/nigel",
   "description": "BoyerMooreHorspool algorithms",
   "version": "4.0.2",
   "repository": "git://github.com/hapijs/nigel",
@@ -18,17 +18,17 @@
     "stream"
   ],
   "dependencies": {
-    "@hapi/hoek": "^9.0.4",
-    "@hapi/vise": "^4.0.0"
+    "@commercial/hoek": "^9.0.4",
+    "@commercial/vise": "^4.0.0"
   },
   "devDependencies": {
     "@hapi/code": "8.x.x",
     "@hapi/lab": "22.x.x",
-    "@hapi/teamwork": "4.x.x"
+    "@commercial/teamwork": "5.x.x"
   },
   "scripts": {
     "test": "lab -a @hapi/code -t 100 -L",
     "test-cov-html": "lab -a @hapi/code -r html -o coverage.html"
   },
-  "license": "BSD-3-Clause"
+  "license": "SEE LICENSE IN LICENSE.md"
 }

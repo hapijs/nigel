@@ -3,8 +3,8 @@
 const Code = require('@hapi/code');
 const Lab = require('@hapi/lab');
 const Nigel = require('..');
-const Teamwork = require('@hapi/teamwork');
-const Vise = require('@hapi/vise');
+const Teamwork = require('@commercial/teamwork');
+const Vise = require('@commercial/vise');
 
 
 const internals = {};

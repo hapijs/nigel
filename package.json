@@ -17,12 +17,18 @@
     "search",
     "stream"
   ],
+  "eslintConfig": {
+    "extends": [
+      "plugin:@hapi/module"
+    ]
+  },
   "dependencies": {
     "@hapi/hoek": "^9.0.4",
     "@hapi/vise": "^4.0.0"
   },
   "devDependencies": {
     "@hapi/code": "8.x.x",
+    "@hapi/eslint-plugin": "*",
     "@hapi/lab": "24.x.x",
     "@hapi/teamwork": "4.x.x"
   },

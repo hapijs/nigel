@@ -4,7 +4,7 @@ const Code = require('@hapi/code');
 const Lab = require('@hapi/lab');
 const Nigel = require('..');
 const Teamwork = require('@hapi/teamwork');
-const Vise = require('@hapi/vise');
+const { Vise } = require('@hapi/vise');
 
 
 const internals = {};

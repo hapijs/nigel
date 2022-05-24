@@ -1,7 +1,7 @@
 {
   "name": "@hapi/nigel",
   "description": "Boyer-Moore-Horspool algorithms",
-  "version": "4.0.2",
+  "version": "5.0.0",
   "repository": "git://github.com/hapijs/nigel",
   "main": "lib/index.js",
   "engines": {

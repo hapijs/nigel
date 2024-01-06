@@ -1,5 +1,5 @@
 {
-  "name": "@commercial/nigel",
+  "name": "nigel",
   "description": "BoyerMooreHorspool algorithms",
   "version": "2.1.0",
   "repository": "git://github.com/hapijs/nigel",
@@ -15,8 +15,8 @@
     "stream"
   ],
   "dependencies": {
-    "@commercial/hoek": "4.x.x",
-    "@commercial/vise": "2.x.x"
+    "hoek": "4.x.x",
+    "vise": "2.x.x"
   },
   "devDependencies": {
     "code": "4.x.x",

@@ -3,7 +3,7 @@
 const Code = require('code');
 const Lab = require('lab');
 const Nigel = require('..');
-const Vise = require('@commercial/vise');
+const Vise = require('vise');
 
 
 const internals = {};
